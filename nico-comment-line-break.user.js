@@ -13,4 +13,59 @@
 
 (function () {
   "use strict";
+
+  let intervalId;
+
+  function main() {
+    let commentTextarea;
+    document.querySelectorAll("textarea").forEach(function (textarea) {
+      // コメント入力欄か判別
+      if (textarea.placeholder === "コメントを入力") {
+        commentTextarea = textarea;
+      }
+    });
+    if (!commentTextarea) {
+      console.warn("Comment textarea not found.");
+      return;
+    }
+    // 取得成功
+    clearInterval(intervalId);
+
+    console.log("Comment textarea found:", commentTextarea);
+    commentTextarea.addEventListener("keydown", function (e) {
+      // console.log(`Key pressed: ${e.key}`);
+      if (e.key === "Enter" && e.shiftKey) {
+        e.preventDefault(); // デフォルトの動作を防止
+        // カーソル位置に改行を挿入
+        const insertText = "\n";
+
+        const start = commentTextarea.selectionStart;
+        const end = commentTextarea.selectionEnd;
+        const value = commentTextarea.value;
+
+        commentTextarea.value = value.substring(0, start) + insertText + value.substring(end);
+
+        // カーソルを挿入文字の直後に移動
+        const newPos = start + insertText.length;
+        commentTextarea.focus();
+        commentTextarea.setSelectionRange(newPos, newPos);
+        // テキストエリアのイベントをトリガー
+        const event = new Event("input", { bubbles: true });
+        commentTextarea.dispatchEvent(event);
+      }
+    });
+  }
+
+  window.onload = function () {
+    // 定期的に実行
+    intervalId = setInterval(function () {
+      main();
+    }, 1000);
+    // フルスクリーンモードの変更を監視
+    document.addEventListener("fullscreenchange", function () {
+      setTimeout(() => {
+        main();
+      }, 100);
+    });
+  };
 })();
