@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        nico-comment-line-break
 // @description Insert a newline in the Niconico Douga comment field with Shift + Enter.
-// @description:ja ニコニコ動画のコメント欄で Shift + Enter で改行できるようにします。
+// @description:ja ニコニコ動画のコメント入力欄で Shift + Enter で改行できるようにします。
 // @version     1.0.0
 // @author      KOTO28
 // @namespace   https://github.com/KOTO28
